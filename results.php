@@ -81,12 +81,11 @@ else if(isset($_GET['user']))
   $exams=$database->getExams($username);
   echo "<h1>Exams list(latest to oldest)</h1>";
   echo "<table cellpadding=5 cellspacing=0 id=data>"; 
-  echo "<tr id=\"tag\"><td ><b>Topic</b></td><td><b>Date</b></td><td><b>Result</b></td></tr>";
+  echo "<tr id=\"tag\"><td ><b>Topic</b></td><td><b>Date</b></td><td><b>Result</b></td><td><b>User</b></td><td><b>Flag</b></td></tr>";
   foreach($exams as $exam)
-  echo "<tr><td>".$exam['topic']."</td><td>".$exam['date']."</td><td><a href=\"?id=".$exam['id']."\">view results</a></td></tr>";
+  echo "<tr><td>".$exam['topic']."</td><td>".$exam['date']."</td><td><a href=\"?id=".$exam['id']."\">view results</a></td><td>".$exam['name']."</td><td><input type='submit' name='Flag'></td></tr>";
   echo "</table>";
   echo "<a href=\"./\" title=\"Go back\"><img src=\"images/back.png\"></a>";
  }
 }
 ?>
-
