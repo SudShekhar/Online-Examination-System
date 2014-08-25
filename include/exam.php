@@ -4,18 +4,21 @@ class exam
 {
   function startExam($topic_id,$marks) //starts exam taking topic id as input
   {
-    global $database;
+   global $database;
    $_SESSION['isWritingExam']=true;
    $_SESSION['currentqkey']=0;
    $_SESSION['for']=$marks;
+   $_SESSION['totalQuestions'] = 2*$marks;
    $_SESSION['top_id']=$topic_id;
    $_SESSION['time']=time();
    $_SESSION['isEndOfExam']=false;
    $_SESSION['corcount']=0;
-   if($database->isdreqs($topic_id,$marks))
+   $_SESSION['prevCorrect'] = false;
+   $_SESSION['difficulty'] = 0;
+   if($database->isdreqs($topic_id,2*$marks))
    {
-   $_SESSION['currentqarray']=$database->getranqarray($topic_id,$marks);
-   return true;
+    $_SESSION['currentqarray']=$database->getranqarray($topic_id,2*$marks);
+    return true;
    }
    else
    {return false;}
@@ -28,12 +31,22 @@ class exam
   echo $row[0];
   return $_SESSION['currentqarray'][$_SESSION['currentqkey']];
   }
+
+  function loadmyQuestion($difficulty=0) //loads current question
+  { 
+  global $database;
+  $res=$database->query('select q_text from questions where q_id='.$_SESSION['currentqarray'][$_SESSION['currentqkey']]);
+  $row=mysql_fetch_array($res);
+  //echo $row[0];
+  return array($row[0],$_SESSION['currentqarray'][$_SESSION['currentqkey']]);
+  }
+
   function nextQ()
   {
     $_SESSION['currentqkey']++;
     //if($_SESSION['currentqarray'][$_SESSION['currentqkey']]==end($_SESSION['currentqarray']))
     if($_SESSION['currentqkey'] == $_SESSION['for'])
-    $_SESSION['isEndOfExam']=true;
+      $_SESSION['isEndOfExam']=true;
   }
   function loadans() //returns row[0] option1,row[1] option2....row[3] option4
   {
@@ -51,10 +64,15 @@ class exam
     if($database->iscor($qid,$ansid)) 
     {
     $_SESSION['corcount']++; 
+    $_SESSION['prevCorrect'] = true;
+    $_SESSION['difficulty'] = max($_SESSION['difficulty'],2);
     return true;
     }
-    else
+    else{
+      $_SESSION['difficulty']--;
+      $_SESSION['difficulty'] = max($_SESSION['difficulty'],0);
       return false;
+    }
   }
   function endexam()
   {
@@ -66,12 +84,10 @@ class exam
     unset($_SESSION['corcount']);
     unset($_SESSION['currentqkey']);
     if(!$res)
-    echo "error submiting";    
-    
+      echo "error submiting";    
   }
   function isEndOfExam()
   {
-   
   return $_SESSION['isEndOfExam'];
   }
 }
