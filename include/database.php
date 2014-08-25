@@ -49,7 +49,7 @@ class MySQLDB
    function confirmUserPass($username, $password){
       /* Add slashes if necessary (for query) */
       if(!get_magic_quotes_gpc()) {
-	      $username = addslashes($username);
+        $username = addslashes($username);
       }
 
       /* Verify that user is in database */
@@ -84,7 +84,7 @@ class MySQLDB
    function confirmUserID($username, $userid){
       /* Add slashes if necessary (for query) */
       if(!get_magic_quotes_gpc()) {
-	      $username = addslashes($username);
+        $username = addslashes($username);
       }
 
       /* Verify that user is in database */
@@ -332,9 +332,10 @@ class MySQLDB
   }
   function getExams($stdid)
   {
-  $res=$this->query('select * from '.TBL_RESULTS.' where username="'.$stdid.'" ORDER BY `'.TBL_RESULTS.'`.`timestamp` DESC');
+  //$res=$this->query('select * from '.TBL_RESULTS.' where username="'.$stdid.'" ORDER BY `'.TBL_RESULTS.'`.`timestamp` DESC');
+  $res=$this->query('select * from '.TBL_RESULTS.'  ORDER BY `'.TBL_RESULTS.'`.`timestamp` DESC');
   while($row=mysql_fetch_array($res))
-  $arr[]=array('topic'=>$this->gettopicname($row['top_id']),'date'=>date("d-m-y h:m:s",$row['timestamp']),'id'=>$row['exam_id']);
+  $arr[]=array('topic'=>$this->gettopicname($row['top_id']),'date'=>date("d-m-y h:m:s",$row['timestamp']),'id'=>$row['exam_id'],'name'=>$row['username']);
   return $arr;
   }
   function gettopicname($topid)
