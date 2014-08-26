@@ -14,6 +14,7 @@ class exam
    $_SESSION['isEndOfExam'] =false;
    $_SESSION['corcount'] =0;
    $_SESSION['difficulty'] = 0;
+   $_SESSION['amCheat']=0;
    $_SESSION['end'] = 2*$marks-1;
    $_SESSION['start'] = 0;
    $_SESSION['index'] = (int)(($_SESSION['start'] +$_SESSION['end'])/2);
@@ -72,10 +73,19 @@ class exam
    shuffle($ar);
    return $ar;
   }
-  
-  function chkans($qid,$ansid) //checks the ans is correct or wrong
+  function givehint(){
+    global $database;
+    $res = $database->query('select qhint from questions where q_id='.$_SESSION['currentqarray'][$_SESSION['index']]);
+    $row = mysql_fetch_array($res);
+    return $row[0];
+  }
+  function chkans($qid,$ansid,$hnt) //checks the ans is correct or wrong
   {
    global $database;
+    if($hnt==1)
+      $_SESSION['amCheat']=1;
+
+    
     if($database->iscor($qid,$ansid)) 
     {
     $_SESSION['corcount']++; 
@@ -101,7 +111,7 @@ class exam
     global $database;
     global $session;
     $_SESSION['isWritingExam']=false;
-    $res=$database->query("INSERT INTO exam_res (`exam_id`, `result`, `for`, `timestamp`, `top_id`, `username`) VALUES (NULL, '".$_SESSION['corcount']."', '".$_SESSION['totalQuestions']."', '".$_SESSION['time']."', '".$_SESSION['top_id']."', '".$session->username."')");
+    $res=$database->query("INSERT INTO exam_res (`exam_id`, `result`, `for`, `timestamp`, `top_id`,`cheat`, `username`) VALUES (NULL, '".$_SESSION['corcount']."', '".$_SESSION['totalQuestions']."', '".$_SESSION['time']."', '".$_SESSION['top_id']."', '".$_SESSION['amCheat']."','".$session->username."')");
     unset($_SESSION['currentqarray']);    
     unset($_SESSION['corcount']);
     unset($_SESSION['currentqkey']);
