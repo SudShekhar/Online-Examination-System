@@ -294,7 +294,7 @@ global $database;
                   $("#newpass").val("");
 			});
 			$("#subq").click(function(){
-			$.post("adminprocess.php",{addq:1,qtext:$("#qtext").val(),qop1:$("#op1").val(),qop2:$("#op2").val(),qop3:$("#op3").val(),qop4:$("#op4").val(),qans:$("#corans").val(),topid:$("#topid").val()});
+			$.post("adminprocess.php",{addq:1,qtext:$("#qtext").val(),qop1:$("#op1").val(),qop2:$("#op2").val(),qop3:$("#op3").val(),qop4:$("#op4").val(),qans:$("#corans").val(),topid:$("#topid").val(),qhint:$("#qhint").val()});
 			$("#flex2").flexReload();
 			$("#form2").hide();
 			});
@@ -373,7 +373,19 @@ global $database;
 				<td><input type="text" id="op1" name="qop1"></td>
 			</tr>
 			<tr>
-				<td>option2</td><td><input type="text" id="op2" name="qop2"></td></tr><tr><td>option3</td><td><input type="text" id="op3" name="qop3"></td></tr><tr><td>option4</td><td><input type="text" id="op4" name="qop4"></td></tr><tr><td>correct option</td><td><select id="corans"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></td></tr><tr><td>topic</td><td><select id="topid"><?php $database->topicslist();?></select></td></tr><tr><td><input type="button" value="submit" id="subq"></td><td></td></tr>
+				<td>option2</td><td><input type="text" id="op2" name="qop2"></td></tr>
+			<tr><td>option3</td><td><input type="text" id="op3" name="qop3"></td></tr>
+			<tr><td>option4</td><td><input type="text" id="op4" name="qop4"></td></tr>
+			<tr><td>correct option</td><td>
+				<select id="corans">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+				</select></td></tr>
+			<tr><td>topic</td><td><select id="topid"><?php $database->topicslist();?></select></td></tr>
+			<tr> <td>Hint</td><td><input type="text" id="qhint" name="qhint"></td></tr>
+			<tr><td><input type="button" value="submit" id="subq"></td><td></td></tr>
 			</table>
 	</div>
 	<div id="uploadform" style="display:none;"> 
