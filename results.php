@@ -5,10 +5,11 @@ include 'header.php';
 ?>
 <script>
 function saveData(data) {
+  alert(data);
   ndata = {}
   ndata['id'] = data;
  $.ajax({
-                url : 'http://localhost/temp/Online-Examination-System/include/database.php',
+                url : './include/database.php',
                 type : 'POST',
                 async : true,	
                 data : ndata,
@@ -30,8 +31,8 @@ function saveData(data) {
   ndata['apologize'] = confirm('Do you accept you have cheated?');
   //alert(ndata['apologize']);
   $.ajax({
-                url : 'http://localhost/temp/Online-Examination-System/include/database.php',
-                  type : 'POST',
+                url : './include/database.php',
+                type : 'POST',
                 async : true,
                 data : ndata,
                 success : function(response){
@@ -95,7 +96,7 @@ if(isset($_GET['id']))
 }
 else if(isset($_GET['user']))
 {
- if($_GET['result']=='latest')
+ if(isset($_GET['result']) && $_GET['result']=='latest')
  {
   $result=$database->getresults($database->latestExamID($_GET['user']));
   echo "<table>";

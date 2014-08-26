@@ -340,9 +340,9 @@ class MySQLDB
   }
   function gettopicname($topid)
   {
-  $res=$this->query("select top_title  from ".TBL_TOPICS." where top_id=".$topid);
-  $row=mysql_fetch_array($res);
-  return $row[0];
+    $res=$this->query("select top_title  from ".TBL_TOPICS." where top_id=".$topid);
+    $row=mysql_fetch_array($res);
+    return $row[0];
   }
   function debug_to_console( $data ) {
     if ( is_array( $data ) )
@@ -362,7 +362,7 @@ class MySQLDB
   function updateapol($examid, $apologize)
   {
     $this->debug_to_console($apologize);
-    if($apologize==single){
+    if($apologize==true){
     $q = "UPDATE ".TBL_RESULTS." SET apologize = 1 WHERE exam_id =" .$examid;
     mysql_query($q, $this->connection);
   }
@@ -397,13 +397,13 @@ class MySQLDB
   }
   function topicslist($subid=NULL)
   {
-  if($subid==NULL)
-  $where="";
-  else
-  $where="where sub_id=".$subid;
-  $res=$this->query("select top_id,top_title from ".TBL_TOPICS." ".$where);
-  while($row=mysql_fetch_array($res))
-  echo "<option value=".$row['top_id'].">".$row['top_title']."</option>";
+    if($subid==NULL)
+    $where="";
+    else
+    $where="where sub_id=".$subid;
+    $res=$this->query("select top_id,top_title from ".TBL_TOPICS." ".$where);
+    while($row=mysql_fetch_array($res))
+    echo "<option value=".$row['top_id'].">".$row['top_title']."</option>";
   }
   function pbrnches()
   {
@@ -439,12 +439,20 @@ class MySQLDB
   return $row[0];
   }
 };
-$id = $_POST['id'];
-$examid = $_POST['examid'];
-$apologize = $_POST['apologize'];
-/* Create database connection */
+
 $database = new MySQLDB;
-$database->updatedb($id);
-$database->updateapol($examid, $apologize);
+if(isset($_POST['id'])){
+  $id = $_POST['id'];
+  echo "<script>".$id."</script>";
+  $database->updatedb($id);
+
+} 
+  if(isset($_POST['examid'])){
+  $examid = $_POST['examid'];
+  $apologize = $_POST['apologize'];
+  $database->updateapol($examid, $apologize);
+  }
+/* Create database connection */
+
 //$database->debug_to_console($apologize);
 ?>
