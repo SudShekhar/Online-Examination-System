@@ -6,7 +6,6 @@ include("include/session.php");
 function saveData(data) {
   ndata = {}
   ndata['id'] = data;
- alert(data);
  $.ajax({
                 url : 'http://localhost/temp/Online-Examination-System/include/database.php',
                 type : 'POST',
@@ -19,6 +18,11 @@ function saveData(data) {
                         console.log('Failed to insert data');
                 }
         }); 
+ }
+ function accept(data) {
+  var apologize = confirm('Do you accept you have cheated?');
+  alert(apologize);
+  alert(data);
  }
 </script>
 <html>
@@ -100,10 +104,12 @@ else if(isset($_GET['user']))
   $exams=$database->getExams($username);
   echo "<h1>Exams list(latest to oldest)</h1>";
   echo "<table cellpadding=5 cellspacing=0 id=data>"; 
-  echo "<tr id=\"tag\"><td ><b>Topic</b></td><td><b>Date</b></td><td><b>Result</b></td><td><b>User</b></td><td><b>Flag</b></td></tr>";
+  echo "<tr id=\"tag\"><td ><b>Topic</b></td><td><b>Date</b></td><td><b>Result</b></td><td><b>User</b></td><td><b>Flag</b></td><td><b>Flagged?</b></td></tr>";
   foreach($exams as $exam)
   echo "<tr><td>".$exam['topic']."</td><td>".$exam['date']."</td><td><a href=\"?id=".$exam['id']."\">view results</a></td><td>".$exam['name'].
-       "</td>" .(($exam['flag']==0)?"<td><a href='#' onclick=\"javascript:saveData(".$exam['id'].");\">Flag</a>":"<td><input type='submit' name='Flag' value='Flagged' disabled>"). "</td></tr>";
+       "</td>" .(($exam['flag']==0 && $exam['name']!= $username)?"<td><a href='#' onclick=\"javascript:saveData(".$exam['id'].");\">Flag</a>":"
+        <td><input type='submit' name='Flag' value='Flagged/NA' disabled>"). "</td><td>" .(($exam['name']== $username && $exam['flag']==1)?"<a href='#' onclick=\"javascript:accept(".$exam['id'].");\">You are flagged</a>":"
+        <input type='submit' name='Flag' value='NA' disabled>")."</td></tr>";
   echo "</table>";
   echo "<a href=\"./\" title=\"Go back\"><img src=\"images/back.png\"></a>";
  }
