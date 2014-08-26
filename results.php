@@ -23,7 +23,6 @@ function saveData(data) {
  }
  
  function accept(data) {
-
   //alert(data);
   //var apologize = confirm('Do you accept you have cheated?');
    ndata = {}
