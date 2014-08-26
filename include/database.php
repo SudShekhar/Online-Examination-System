@@ -7,7 +7,6 @@
  *
  */
 include("constants.php");
-include("session.php");
       
 class MySQLDB
 {
