@@ -45,7 +45,7 @@ class exam
   {
     $_SESSION['currentqkey']++;
     //if($_SESSION['currentqarray'][$_SESSION['currentqkey']]==end($_SESSION['currentqarray']))
-    if($_SESSION['currentqkey'] == $_SESSION['for'])
+    if($_SESSION['currentqkey'] >= $_SESSION['for'])
       $_SESSION['isEndOfExam']=true;
   }
   function loadans() //returns row[0] option1,row[1] option2....row[3] option4

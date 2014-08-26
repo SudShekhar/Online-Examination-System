@@ -5,7 +5,7 @@ global $session;
 global $exam;
 if(!$session->logged_in)
 include("login.php");
-else if(!isset($_POST['subjectid']) && !isset($_POST['topicid']) && !$_SESSION['isWritingExam'])
+else if(!isset($_POST['subjectid']) && !isset($_POST['topicid']) && !(isset($_SESSION['subid']) && isset($_SESSION['topicid']) && isset($_SESSION['marks'])))
   include("disp.php");
 else if(isset($_POST['subjectid']) && isset($_POST['topicid']) || (isset($_SESSION['subid']) && isset($_SESSION['topicid']) && isset($_SESSION['marks'])))
 {
