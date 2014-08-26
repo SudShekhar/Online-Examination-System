@@ -37,7 +37,7 @@ td{font-size:20px;color:#fff;}
 <caption>Exam Settings</caption>
 <tr ><td >Select the subject</td><td><select id="subject" name="subjectid"><?php $database->psubs($session->branchid); ?></select></td></tr>
 <tr><td>Select the topic</td><td><select id="topic" name="topicid"></select></td></tr>
-<tr><td>Select the no of marks u want to write</td><td><select name="marks"><option value=1>1</option><option value2>2</option</select></td></tr>
+<tr><td>Select the no of marks u want to write</td><td><select name="rounds"><option value=2>2</option><option value=3>3</option</select></td></tr>
 <tr><td></td><td><input type="submit" value="go" id="sub"></td></tr>
 </table>
 </form>

@@ -12,11 +12,11 @@ else if(isset($_POST['subjectid']) && isset($_POST['topicid']) || (isset($_SESSI
 if(isset($_POST['subjectid']) && isset($_POST['topicid']))  {
   $subid=$_POST['subjectid'];
   $topicid=$_POST['topicid'];
-  $marks=$_POST['marks'];
+  $marks=1;
   $_SESSION['subid'] = $subid;
   $_SESSION['topicid'] = $topicid;
-  $_SESSION['marks'] = $_POST['marks'];
-  $val=$exam->startExam($topicid,$marks);
+  $_SESSION['marks'] = 1;
+  $val=$exam->startExam($topicid,$marks,$_POST['rounds']);
   $_SESSION['val'] = $val;
   $count=1;
 }
@@ -26,6 +26,7 @@ else{
   $marks=$_SESSION['marks'];
   $val = $_SESSION['val'];
   $count = 1;
+  $marks=1;
 }
 
 $style = <<< EOF
@@ -117,7 +118,7 @@ $frm = "<form action=\"evaluate.php\" method=\"post\" id=\"answers\">
       </thead>";
 for($i=0;$i<count($allanswers);$i++){
   $ind = $i+1;
-  $frm.="<tr><td class=\"qs\">".$ind."</tr>";
+  $frm.="<tr><td class=\"qs\">".$ind."</td>";
   foreach ($allanswers[$i] as $answer) {
      $frm.="<td><input type=\"radio\" name=".$allqids[$i]." value=".$answer['key']."></td>";
   }

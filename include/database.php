@@ -285,14 +285,14 @@ class MySQLDB
  }
  function getranqarray($topid,$size)
  {
- $res=$this->query('select q_id from '.TBL_QUESTIONS.' where top_id='.$topid );
- while($row=mysql_fetch_array($res))
- {
- $ar[]=$row[0];
- }
- $ar=array_chunk($ar,$size);
- shuffle($ar[0]);
- return $ar[0];
+   $res=$this->query('select q_id from '.TBL_QUESTIONS.' where top_id='.$topid );
+   while($row=mysql_fetch_array($res))
+   {
+    $ar[]=$row[0];
+   }
+   $ar=array_chunk($ar,$size*7);
+   shuffle($ar[0]);
+   return $ar[0];
  }
  function iscor($qid,$ansid)
  {

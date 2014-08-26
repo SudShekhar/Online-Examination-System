@@ -15,17 +15,23 @@ function debug_to_console( $data ) {
     echo $output;
 }
 
-$_SESSION['dne'] += $_SESSION['for'];
-for ($i=0; $i < count($_SESSION['currentqarray']); $i++) { 
-	$exam->chkans($_SESSION['currentqarray'][$i],$_POST[$_SESSION['currentqarray'][$i]])."\n";
-}
+$_SESSION['dne'] += $_SESSION['for']; 
+$id = $_SESSION['currentqarray'][$_SESSION['index']];
+$exam->chkans($id,$_POST[$id]);
+
+$_SESSION['currentqarray'][$_SESSION['index']] = -1;
 if($_SESSION['totalQuestions'] == $_SESSION['dne']){
-	$_SESSION['for'] *=2;
+	$_SESSION['for'] = $_SESSION['dne'];
 	$exam->endexam();
-	unset($_SESSION['topicid']);
+	$examvars = array("isWritingExam","subid","topicid","marks","corcount");
+    foreach($examvars as $toCheck){
+        if (isset($_SESSION[$toCheck]))
+          unset($_SESSION[$toCheck]);
+      }
 	header("location: results.php?result=latest&user=".$session->username);
 }
 else{
+    $_SESSION['currentqkey']=0;
 	header("location:exam.php");
 }
 
