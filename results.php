@@ -5,6 +5,7 @@ include 'header.php';
 ?>
 <script>
 function saveData(data) {
+  alert(data);
   ndata = {}
   ndata['id'] = data;
  $.ajax({
@@ -95,7 +96,7 @@ if(isset($_GET['id']))
 }
 else if(isset($_GET['user']))
 {
- if($_GET['result']=='latest')
+ if(isset($_GET['result']) && $_GET['result']=='latest')
  {
   $result=$database->getresults($database->latestExamID($_GET['user']));
   echo "<table>";
