@@ -7,6 +7,7 @@
  *
  */
 include("constants.php");
+include("session.php");
       
 class MySQLDB
 {
@@ -335,7 +336,7 @@ class MySQLDB
   //$res=$this->query('select * from '.TBL_RESULTS.' where username="'.$stdid.'" ORDER BY `'.TBL_RESULTS.'`.`timestamp` DESC');
   $res=$this->query('select * from '.TBL_RESULTS.'  ORDER BY `'.TBL_RESULTS.'`.`timestamp` DESC');
   while($row=mysql_fetch_array($res))
-  $arr[]=array('topic'=>$this->gettopicname($row['top_id']),'date'=>date("d-m-y h:m:s",$row['timestamp']),'id'=>$row['exam_id'],'name'=>$row['username'],'flag'=>$row['Flag'],'apol'=>$row['apologize']);
+  $arr[]=array('topic'=>$this->gettopicname($row['top_id']),'date'=>date("d-m-y h:m:s",$row['timestamp']),'id'=>$row['exam_id'],'name'=>$row['username'],'flag'=>$row['Flag'],'apol'=>$row['apologize'],'cheat'=>$row['cheat']);
   return $arr;
   }
   function gettopicname($topid)
@@ -354,10 +355,18 @@ class MySQLDB
         $output = "<script>console.log( 'single " . $data . "' );</script>";
     echo $output;
 }
-  function updatedb($examid)
+  function updatedb($examid,$cheat)
   {
-    $q = "UPDATE ".TBL_RESULTS." SET Flag = 1 WHERE exam_id =" .$examid;
-      mysql_query($q, $this->connection);
+    if($cheat==1)
+    {
+    $q = "UPDATE ".TBL_RESULTS." SET `Flag` = 1 WHERE `exam_id` =" .$examid;
+    mysql_query($q, $this->connection);
+    }
+    // else
+    // {
+    //   $q = "UPDATE ".TBL_USERS." SET `score` = `score` - 1 WHERE `username` ='".$user."'";
+    //   mysql_query($q, $this->connection);
+    // }
   }
   function updateapol($examid, $apologize)
   {
@@ -443,8 +452,10 @@ class MySQLDB
 $database = new MySQLDB;
 if(isset($_POST['id'])){
   $id = $_POST['id'];
+  $cheat = $_POST['cheat'];
+  //$user = $_POST['user'];
   echo "<script>".$id."</script>";
-  $database->updatedb($id);
+  $database->updatedb($id,$cheat);
 
 } 
   if(isset($_POST['examid'])){

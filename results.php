@@ -4,11 +4,12 @@ include 'header.php';
 
 ?>
 <script>
-function saveData(data) {
-  alert(data);
+function saveData(data,cheat) {
+  alert(cheat);
   ndata = {}
   ndata['id'] = data;
- $.ajax({
+  ndata['cheat'] = cheat; 
+  $.ajax({
                 url : './include/database.php',
                 type : 'POST',
                 async : true,	
@@ -57,6 +58,7 @@ a img {border:none;}
 <body>
 <?php
 global $database;
+//global $flag_payoff = 1;
 global $session;
 if(isset($_GET['admin']))
 {
@@ -123,7 +125,7 @@ else if(isset($_GET['user']))
   echo "<tr id=\"tag\"><td ><b>Topic</b></td><td><b>Date</b></td><td><b>Result</b></td><td><b>User</b></td><td><b>Flag</b></td><td><b>Flagged?</b></td></tr>";
   foreach($exams as $exam)
   echo "<tr><td>".$exam['topic']."</td><td>".$exam['date']."</td><td><a href=\"?id=".$exam['id']."\">view results</a></td><td>".$exam['name'].
-       "</td>" .(($exam['flag']==0 && $exam['name']!= $username)?"<td><a href='#' onclick=\"javascript:saveData(".$exam['id'].");\">Flag</a>":"
+       "</td>" .(($exam['flag']==0 && $exam['name']!= $username)?"<td><a href='#' onclick=\"javascript:saveData(".$exam['id'].",".$exam['cheat'].");\">Flag</a>":"
         <td><input type='submit' name='Flag' value='Flagged/NA' disabled>"). "</td><td>" .(($exam['name']== $username && $exam['flag']==1 && $exam['apol']==0)?"<a href='#' onclick=\"javascript:accept(".$exam['id'].");\">You are flagged</a>":"
         <input type='submit' name='Flag' value='NA' disabled>")."</td></tr>";
   echo "</table>";
