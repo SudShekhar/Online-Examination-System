@@ -6,7 +6,7 @@ include("include/session.php");
  * a link to the admin center if the user is an administrator.
  */
 if($session->logged_in){
-  $examvars = array("isWritingExam","subid","topicid","marks","corcount");
+  $examvars = array("isWritingExam","subid","topicid","marks","corcount","amCheat");
   foreach($examvars as $toCheck){
     if (isset($_SESSION[$toCheck]))
       unset($_SESSION[$toCheck]);

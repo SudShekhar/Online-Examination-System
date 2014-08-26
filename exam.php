@@ -33,6 +33,7 @@ else{
 $style = <<< EOF
 <style>
 #clock{width:95px;height:40px;margin:3px 0px 0px 3px;}
+#hint{width:95px;height:40px;margin:3px 0px 0px 3px;}
 .right{float:right;padding-bottom: 5em; width: 20%;}
 .left{
   float: left;
@@ -40,10 +41,26 @@ $style = <<< EOF
   padding-bottom: 5em;
   height:400px;
   overflow: scroll;
-
 }
+.fancy_button {
+ display: block;
+ background: #62869b;
+ width: 200px;
+ height: 50px;
+ text-align: center;
+ padding: 30px 0 0 0;
+ font: 1.2em/12px Verdana, Arial, Helvetica, sans-serif;
+ color: #fff;
+ text-decoration: none;
+ -webkit-border-radius: 15px;
+ -khtml-border-radius: 15px;
+ -moz-border-radius: 15px;
+ border-radius: 15px;
+ }
+
 .right table tbody tr{background-color: #4B2C0C;}
 .qs{background-color: #D08437;}
+\
 #footer{margin-top: 20px;}
 </style>
 EOF;
@@ -57,7 +74,14 @@ function comp(){\$("#answers").submit();}
 \$("#sub").click(function(){
 \$.post(".php",{qid:\$("#qid").val(),ans:\$("input:checked").val()},function(data){\$("#content").html(data);});
 });
+
+\$("#hint").click(function(){
+  \$("#data").show();
+  \$("#havecheated").val(1);
 });
+});
+
+
 </script>
 EOF;
 $title = "Talent Hunt";
@@ -91,6 +115,7 @@ do
   $qdetails = $exam->loadmyQuestion($_SESSION['difficulty']);
   $id = $qdetails[1];
   $qtxt = $qdetails[0];
+  $hnt = $exam->givehint();
   $allqids[]=$id;
   $answers=$exam->loadans();
   $allanswers[] = $answers;
@@ -125,7 +150,9 @@ for($i=0;$i<count($allanswers);$i++){
   }
   $frm.="</tr>";
 }
-    $frm.="</table>
+    $frm.="
+    <input type=\"hidden\" id=\"havecheated\" name=\"havecheated\" value=\"0\">
+    </table>
     <input type=\"submit\" value=\"go\"> 
   </form>";
 
@@ -145,8 +172,10 @@ $bodyup = <<< EOF
  </div>
 </div>
 </div>
+<div><button id="hint" type="button" class="fancy button" >Hint</button> <p id="data" style="display:none;">{$hnt}</p></div>
 <div id="footer">
 <div id="clock"></div>
+
 </div>
 </body>
 </html>

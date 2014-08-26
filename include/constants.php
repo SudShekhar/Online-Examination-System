@@ -16,8 +16,8 @@
  */
 define("DB_SERVER", "localhost");
 define("DB_USER", "root");
-define("DB_PASS", "helloaman");
-define("DB_NAME", "Examination");
+define("DB_PASS", "sud");
+define("DB_NAME", "examination");
 
 /**
  * Database Table Constants - these constants

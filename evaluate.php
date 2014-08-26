@@ -17,13 +17,14 @@ function debug_to_console( $data ) {
 
 $_SESSION['dne'] += $_SESSION['for']; 
 $id = $_SESSION['currentqarray'][$_SESSION['index']];
-$exam->chkans($id,$_POST[$id]);
+echo $_POST['havecheated'];
+$exam->chkans($id,$_POST[$id],$_POST['havecheated']);
 
 $_SESSION['currentqarray'][$_SESSION['index']] = -1;
 if($_SESSION['totalQuestions'] == $_SESSION['dne']){
 	$_SESSION['for'] = $_SESSION['dne'];
 	$exam->endexam();
-	$examvars = array("isWritingExam","subid","topicid","marks","corcount");
+	$examvars = array("isWritingExam","subid","topicid","marks","corcount","amCheat");
     foreach($examvars as $toCheck){
         if (isset($_SESSION[$toCheck]))
           unset($_SESSION[$toCheck]);
