@@ -1,5 +1,6 @@
 <?php
 include("include/session.php");
+include 'header.php';
 
 ?>
 <script>
@@ -9,7 +10,7 @@ function saveData(data) {
  $.ajax({
                 url : 'http://localhost/temp/Online-Examination-System/include/database.php',
                 type : 'POST',
-                async : true,
+                async : true,	
                 data : ndata,
                 success : function(response){
                         location.reload();
@@ -20,9 +21,22 @@ function saveData(data) {
         }); 
  }
  function accept(data) {
-  var apologize = confirm('Do you accept you have cheated?');
-  alert(apologize);
-  alert(data);
+
+  //alert(data);
+  //var apologize = confirm('Do you accept you have cheated?');
+   ndata = {}
+  ndata['examid'] = data;
+  ndata['apologize'] = confirm('Do you accept you have cheated?');
+  //alert(ndata['apologize']);
+  $.ajax({
+                url : 'http://localhost/temp/Online-Examination-System/include/database.php',
+                  type : 'POST',
+                async : true,
+                data : ndata,
+                success : function(response){
+                        location.reload();
+                },
+        });
  }
 </script>
 <html>
@@ -111,7 +125,6 @@ else if(isset($_GET['user']))
         <td><input type='submit' name='Flag' value='Flagged/NA' disabled>"). "</td><td>" .(($exam['name']== $username && $exam['flag']==1)?"<a href='#' onclick=\"javascript:accept(".$exam['id'].");\">You are flagged</a>":"
         <input type='submit' name='Flag' value='NA' disabled>")."</td></tr>";
   echo "</table>";
-  echo "<a href=\"./\" title=\"Go back\"><img src=\"images/back.png\"></a>";
  }
 }
 ?>
