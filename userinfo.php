@@ -1,5 +1,6 @@
 <?php
 include("include/session.php");
+include 'header.php';
 global $database;
 ?>
 <html>

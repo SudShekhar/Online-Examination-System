@@ -1,5 +1,6 @@
 <?php
 include("include/exam.php");
+include 'header.php';
 global $database;
 global $session;
 global $exam;

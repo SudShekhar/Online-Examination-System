@@ -8,7 +8,7 @@ function saveData(data) {
   ndata = {}
   ndata['id'] = data;
  $.ajax({
-                url : 'http://localhost/temp/Online-Examination-System/include/database.php',
+                url : './include/database.php',
                 type : 'POST',
                 async : true,	
                 data : ndata,
@@ -23,13 +23,14 @@ function saveData(data) {
  
  function accept(data) {
   //alert(data);
-  //var apologize = confirm('Do you accept you have cheated?');
+  var apologize = confirm('Do you accept you have cheated?');
+  //alert(apologize);
    ndata = {}
   ndata['examid'] = data;
-  ndata['apologize'] = confirm('Do you accept you have cheated?');
+  ndata['apologize'] = apologize;
   //alert(ndata['apologize']);
   $.ajax({
-                url : 'http://localhost/temp/Online-Examination-System/include/database.php',
+                url : './include/database.php',
                 type : 'POST',
                 async : true,
                 data : ndata,
