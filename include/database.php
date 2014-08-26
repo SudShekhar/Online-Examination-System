@@ -266,43 +266,43 @@ class MySQLDB
       $this->calcNumActiveUsers();
    }
 
-   /* removeInactiveGuests */
-   function removeInactiveGuests(){
-      if(!TRACK_VISITORS) return;
-      $timeout = time()-GUEST_TIMEOUT*60;
-      $q = "DELETE FROM ".TBL_ACTIVE_GUESTS." WHERE timestamp < $timeout";
-      mysql_query($q, $this->connection);
-      $this->calcNumActiveGuests();
-   }
-   
-   /**
-    * query - Performs the given query on the database and
-    * returns the result, which may be false, true or a
-    * resource identifier.
-    */
-   function query($query){
-      return mysql_query($query, $this->connection);
-   }
-   function getranqarray($topid,$size)
-   {
+ /* removeInactiveGuests */
+ function removeInactiveGuests(){
+    if(!TRACK_VISITORS) return;
+    $timeout = time()-GUEST_TIMEOUT*60;
+    $q = "DELETE FROM ".TBL_ACTIVE_GUESTS." WHERE timestamp < $timeout";
+    mysql_query($q, $this->connection);
+    $this->calcNumActiveGuests();
+ }
+ 
+ /**
+  * query - Performs the given query on the database and
+  * returns the result, which may be false, true or a
+  * resource identifier.
+  */
+ function query($query){
+    return mysql_query($query, $this->connection);
+ }
+ function getranqarray($topid,$size)
+ {
    $res=$this->query('select q_id from '.TBL_QUESTIONS.' where top_id='.$topid );
    while($row=mysql_fetch_array($res))
    {
-   $ar[]=$row[0];
+    $ar[]=$row[0];
    }
-   $ar=array_chunk($ar,$size);
+   $ar=array_chunk($ar,$size*7);
    shuffle($ar[0]);
    return $ar[0];
-   }
-   function iscor($qid,$ansid)
-   {
-   $res=$this->query("select q_ans from ".TBL_QUESTIONS." where q_id=$qid");
-   $row=mysql_fetch_array($res);
-   if($ansid==$row[0])
-   return true;
-   else
-   return false;
-   }
+ }
+ function iscor($qid,$ansid)
+ {
+ $res=$this->query("select q_ans from ".TBL_QUESTIONS." where q_id=$qid");
+ $row=mysql_fetch_array($res);
+ if($ansid==$row[0])
+ return true;
+ else
+ return false;
+ }
   function isdreqs($topid,$size)
   { 
   $res=$this->query('select count(*) from '.TBL_QUESTIONS.' where top_id='.$topid );
