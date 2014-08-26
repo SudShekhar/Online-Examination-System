@@ -9,33 +9,27 @@ else if(!isset($_POST['subjectid']) && !isset($_POST['topicid']))
 include("disp.php");
 else if(isset($_POST['subjectid']) && isset($_POST['topicid']))
 {
-$subid=$_POST['subjectid'];
-$topicid=$_POST['topicid'];
-$marks=$_POST['marks'];
-$marks = 1;
-$val=$exam->startExam($topicid,$marks);
-if($val){
-?>
-<!--force IE into Quirks Mode-->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>Talent Hunt -exam</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-<link rel="stylesheet" href="css/jquery.countdown.css">
-<script src="js/jquery.js"></script>
-<script src="js/jquery.countdown.js"></script>
-<script>
-$(function(){
-$('#clock').countdown({until: '+<?php echo $_SESSION['for'];?>m',format:'MS',onExpiry:comp});
-function comp(){$("#answers").submit();}
-$("#sub").click(function(){
-$.post(".php",{qid:$("#qid").val(),ans:$("input:checked").val()},function(data){$("#content").html(data);});
-});
-});
-</script>
+if(isset($_POST['subjectid']) && isset($_POST['topicid']))  {
+  $subid=$_POST['subjectid'];
+  $topicid=$_POST['topicid'];
+  $marks=1;
+  $_SESSION['subid'] = $subid;
+  $_SESSION['topicid'] = $topicid;
+  $_SESSION['marks'] = 1;
+  $val=$exam->startExam($topicid,$marks,$_POST['rounds']);
+  $_SESSION['val'] = $val;
+  $count=1;
+}
+else{
+  $subid=$_SESSION['subid'];
+  $topicid = $_SESSION['topicid'];
+  $marks=$_SESSION['marks'];
+  $val = $_SESSION['val'];
+  $count = 1;
+  $marks=1;
+}
+
+$style = <<< EOF
 <style>
 #clock{width:95px;height:40px;margin:3px 0px 0px 3px;}
 .right{float:right;padding-bottom: 5em; width: 20%;}
@@ -60,10 +54,24 @@ body
 {
 overflow-y: hidden;
 }
-div#wrapper
-{
-height: 100%;
-overflow: auto;
+while(!$exam->isEndOFExam());
+
+$frm = "<form action=\"evaluate.php\" method=\"post\" id=\"answers\">
+    <table>
+      <thead>
+        <td></td>
+        <td>A</td>
+        <td>B</td>
+        <td>C</td>
+        <td>D</td>
+      </thead>";
+for($i=0;$i<count($allanswers);$i++){
+  $ind = $i+1;
+  $frm.="<tr><td class=\"qs\">".$ind."</td>";
+  foreach ($allanswers[$i] as $answer) {
+     $frm.="<td><input type=\"radio\" name=".$allqids[$i]." value=".$answer['key']."></td>";
+  }
+  $frm.="</tr>";
 }
 </style>
 <![endif]-->
