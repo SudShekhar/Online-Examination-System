@@ -335,7 +335,7 @@ class MySQLDB
   //$res=$this->query('select * from '.TBL_RESULTS.' where username="'.$stdid.'" ORDER BY `'.TBL_RESULTS.'`.`timestamp` DESC');
   $res=$this->query('select * from '.TBL_RESULTS.'  ORDER BY `'.TBL_RESULTS.'`.`timestamp` DESC');
   while($row=mysql_fetch_array($res))
-  $arr[]=array('topic'=>$this->gettopicname($row['top_id']),'date'=>date("d-m-y h:m:s",$row['timestamp']),'id'=>$row['exam_id'],'name'=>$row['username']);
+  $arr[]=array('topic'=>$this->gettopicname($row['top_id']),'date'=>date("d-m-y h:m:s",$row['timestamp']),'id'=>$row['exam_id'],'name'=>$row['username'],'flag'=>$row['Flag'],'apol'=>$row['apologize']);
   return $arr;
   }
   function gettopicname($topid)
@@ -343,6 +343,34 @@ class MySQLDB
   $res=$this->query("select top_title  from ".TBL_TOPICS." where top_id=".$topid);
   $row=mysql_fetch_array($res);
   return $row[0];
+  }
+  function debug_to_console( $data ) {
+    if ( is_array( $data ) )
+        {
+          $output = "aray";
+          //$output = "<script>console.log( 'Debug Objects: " . implode( ',', $data) . "' );</script>";
+      }
+    else
+        $output = "<script>console.log( 'single " . $data . "' );</script>";
+    echo $output;
+}
+  function updatedb($examid)
+  {
+    $q = "UPDATE ".TBL_RESULTS." SET Flag = 1 WHERE exam_id =" .$examid;
+      mysql_query($q, $this->connection);
+  }
+  function updateapol($examid, $apologize)
+  {
+    $this->debug_to_console($apologize);
+    if($apologize==single){
+    $q = "UPDATE ".TBL_RESULTS." SET apologize = 1 WHERE exam_id =" .$examid;
+    mysql_query($q, $this->connection);
+  }
+    else
+    {
+      $q = "UPDATE ".TBL_RESULTS." SET apologize = 2 WHERE exam_id =" .$examid;
+      mysql_query($q, $this->connection);
+    }
   }
   function getreport($topicid)
   {
@@ -411,6 +439,12 @@ class MySQLDB
   return $row[0];
   }
 };
+$id = $_POST['id'];
+$examid = $_POST['examid'];
+$apologize = $_POST['apologize'];
 /* Create database connection */
 $database = new MySQLDB;
+$database->updatedb($id);
+$database->updateapol($examid, $apologize);
+//$database->debug_to_console($apologize);
 ?>
