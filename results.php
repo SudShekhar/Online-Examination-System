@@ -23,8 +23,7 @@ function saveData(data) {
  }
  
  function accept(data) {
-  //alert(data);
-  //var apologize = confirm('Do you accept you have cheated?');
+  //function tells us whether user accepts his/her cheating or not.
    ndata = {}
   ndata['examid'] = data;
   ndata['apologize'] = confirm('Do you accept you have cheated?');
@@ -116,7 +115,7 @@ else if(isset($_GET['user']))
     echo "<b><font color=red size=6>".$username."</font></b> hasn't attended exams until now";
     exit();
    }
-  $exams=$database->getExams($username);
+  $exams=$database->getExams();
   echo "<h1>Exams list(latest to oldest)</h1>";
   echo "<table cellpadding=5 cellspacing=0 id=data>"; 
   echo "<tr id=\"tag\"><td ><b>Topic</b></td><td><b>Date</b></td><td><b>Result</b></td><td><b>User</b></td><td><b>Flag</b></td><td><b>Flagged?</b></td></tr>";

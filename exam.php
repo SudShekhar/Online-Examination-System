@@ -128,7 +128,6 @@ do
   $lft.="<br />";
 $exam->nextQ();
 $count++;
-$_SESSION['done']++;
 }
 while(!$exam->isEndOFExam());
 

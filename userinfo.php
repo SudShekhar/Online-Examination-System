@@ -37,6 +37,7 @@ echo "<b>Username: ".$req_user_info['username']."</b><br>";
 
 /* Email */
 echo "<b>Email:</b> ".$req_user_info['email']."<br>";
+echo "<b>Score:</b>".$req_user_info['score']."<br>";
 /* Branch*/
 echo "<b>Branch:<b> ".$database->getbranname($req_user_info['branch_id'])."<br>";
 

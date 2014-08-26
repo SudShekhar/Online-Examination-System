@@ -112,11 +112,14 @@ class exam
     global $session;
     $_SESSION['isWritingExam']=false;
     $res=$database->query("INSERT INTO exam_res (`exam_id`, `result`, `for`, `timestamp`, `top_id`,`cheat`, `username`) VALUES (NULL, '".$_SESSION['corcount']."', '".$_SESSION['totalQuestions']."', '".$_SESSION['time']."', '".$_SESSION['top_id']."', '".$_SESSION['amCheat']."','".$session->username."')");
+    $res2= $database->query("UPDATE users SET `score`=`score`+'".$_SESSION['corcount']."'");
     unset($_SESSION['currentqarray']);    
     unset($_SESSION['corcount']);
     unset($_SESSION['currentqkey']);
     if(!$res)
-      echo "error submiting";    
+      echo "error submiting";  
+    if(!$res)
+      echo "Score not updated";    
   }
   function isEndOfExam()
   {
