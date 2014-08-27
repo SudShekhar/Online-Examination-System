@@ -5,7 +5,6 @@ include 'header.php';
 ?>
 <script>
 function saveData(data,cheat,name) {
-  alert(name);
   ndata = {}
   ndata['id'] = data;
   ndata['cheat'] = cheat; 
