@@ -134,7 +134,7 @@ class AdminProcess
          $database->query($q);
          header("Location: ".$session->referrer);
       }
-   }
+   }g
    
    /**
     * procDeleteInactive - All inactive users are deleted from
@@ -231,7 +231,7 @@ class AdminProcess
    {
     global $database;
     $q="insert into questions values(NULL,'".$_POST['qtext']."','".$_POST['qop1']."','".$_POST['qop2']."','".$_POST['qop3']."','".$_POST['qop4']."','".$_POST['qans']."','".$_POST['topid']."','".$_POST['qhint']."')";
-   echo $q;
+   //echo $q;
    $res=$database->query($q);
    }
    function procDelq()
