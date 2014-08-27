@@ -354,18 +354,18 @@ class MySQLDB
         $output = "<script>console.log( 'single " . $data . "' );</script>";
     echo $output;
 }
-  function updatedb($examid,$cheat)
+  function updatedb($examid,$cheat,$user)
   {
     if($cheat==1)
     {
-    $q = "UPDATE ".TBL_RESULTS." SET `Flag` = 1 WHERE `exam_id` =" .$examid;
+    $q = "UPDATE ".TBL_RESULTS." SET Flag = 1 WHERE exam_id =" .$examid;
     mysql_query($q, $this->connection);
     }
-    // else
-    // {
-    //   $q = "UPDATE ".TBL_USERS." SET `score` = `score` - 1 WHERE `username` ='".$user."'";
-    //   mysql_query($q, $this->connection);
-    // }
+    else
+    {
+      $q = "UPDATE ".TBL_USERS." SET score = score - 1 WHERE username = '".$user."' ";
+      mysql_query($q, $this->connection);
+    }
   }
   function updateapol($examid, $apologize)
   {
@@ -452,9 +452,9 @@ $database = new MySQLDB;
 if(isset($_POST['id'])){
   $id = $_POST['id'];
   $cheat = $_POST['cheat'];
-  //$user = $_POST['user'];
+  $user = $_POST['name'];
   echo "<script>".$id."</script>";
-  $database->updatedb($id,$cheat);
+  $database->updatedb($id,$cheat,$user);
 
 } 
   if(isset($_POST['examid'])){
